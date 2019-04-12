@@ -38,13 +38,22 @@ class Utils:
         name = ret['info'][1]
         model = cobrakbase.convert_kmodel(ret['data'])
 
+        if 'genome_ref' in ret['data']:
+            logging.info(f"Annotating model with genome information: {ret['data']['genome_ref']}")
+            genome = self.dfu.get_objects(
+                {'object_refs': [ret['data']['genome_ref']]})['data'][0]['data']
+            cobrakbase.annotate_model_with_genome(model, genome)
+
+        modelseed = cobrakbase.modelseed.from_local('/kb/module/data/ModelSEEDDatabase-dev')
+        print(cobrakbase.annotate_model_with_modelseed(model, modelseed))
+
         return name, model
 
     def to_sbml(self, params):
         """Convert a FBAModel to a SBML file"""
         files = {}
         _id, cobra_model = self._ws_obj_to_cobra(params['input_ref'])
-        files['file_path'] = os.path.join(params['destination_dir'], _id + ".sbml")
+        files['file_path'] = os.path.join(params['destination_dir'], _id + ".xml")
         cobra.io.write_sbml_model(cobra_model, files['file_path'])
 
         return _id, files
