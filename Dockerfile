@@ -10,7 +10,7 @@ MAINTAINER KBase Developer
 
 RUN pip install --upgrade pip && \
     pip install cobra==0.15.2 && \
-    pip install cobrakbase==0.1.6
+    pip install cobrakbase==0.1.7
 # -----------------------------------------
 
 COPY ./ /kb/module
