@@ -22,9 +22,9 @@ class kb_cobrapy:
     # state. A method could easily clobber the state set by another while
     # the latter method is running.
     ######################################### noqa
-    VERSION = "0.0.4"
+    VERSION = "0.0.3"
     GIT_URL = "git@github.com:Fxe/kb_cobrapy.git"
-    GIT_COMMIT_HASH = "6402dae523cdc9c928ff750eb60293937dbede6c"
+    GIT_COMMIT_HASH = "61ac0a318fa67649653e3d95ad63d7c468444a50"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
