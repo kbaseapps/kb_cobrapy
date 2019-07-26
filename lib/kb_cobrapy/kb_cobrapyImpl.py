@@ -22,9 +22,9 @@ class kb_cobrapy:
     # state. A method could easily clobber the state set by another while
     # the latter method is running.
     ######################################### noqa
-    VERSION = "0.0.1"
-    GIT_URL = "https://github.com/kbaseapps/kb_cobrapy.git"
-    GIT_COMMIT_HASH = "064ad3d44ccce212e6e59d0d549991da48a3094c"
+    VERSION = "0.0.4"
+    GIT_URL = "git@github.com:Fxe/kb_cobrapy.git"
+    GIT_COMMIT_HASH = "6402dae523cdc9c928ff750eb60293937dbede6c"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -94,7 +94,6 @@ class kb_cobrapy:
                              'result is not type dict as required.')
         # return the results
         return [result]
-
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",

@@ -5,6 +5,9 @@ import shutil
 
 import cobra
 import cobrakbase
+from cobrakbase.core.model import KBaseFBAModel
+from cobrakbase.core import KBaseGenome
+from cobrakbase.core.converters import KBaseFBAModelToCobraBuilder
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 
@@ -36,13 +39,29 @@ class Utils:
     def _ws_obj_to_cobra(self, ref):
         ret = self.dfu.get_objects({'object_refs': [ref]})['data'][0]
         name = ret['info'][1]
-        model = cobrakbase.convert_kmodel(ret['data'])
-
+        
+        #old nasty method
+        #model = cobrakbase.convert_kmodel(ret['data'])
+        #if 'genome_ref' in ret['data']:
+        #    logging.info(f"Annotating model with genome information: {ret['data']['genome_ref']}")
+        #    genome = self.dfu.get_objects(
+        #        {'object_refs': [ret['data']['genome_ref']]})['data'][0]['data']
+        #    cobrakbase.annotate_model_with_genome(model, genome)
+        
+        #fbamodel object wraps json data
+        fbamodel = KBaseFBAModel(ret['data'])
+        
+        builder = KBaseFBAModelToCobraBuilder(fbamodel)
+        
         if 'genome_ref' in ret['data']:
             logging.info(f"Annotating model with genome information: {ret['data']['genome_ref']}")
             genome = self.dfu.get_objects(
                 {'object_refs': [ret['data']['genome_ref']]})['data'][0]['data']
-            cobrakbase.annotate_model_with_genome(model, genome)
+            #adding Genome to the Builder
+            builder.with_genome(KBaseGenome(genome))
+                         
+        #converts to cobra model object with builder
+        model = builder.build()
 
         modelseed = cobrakbase.modelseed.from_local('/kb/module/data/ModelSEEDDatabase-dev')
         print(cobrakbase.annotate_model_with_modelseed(model, modelseed))
