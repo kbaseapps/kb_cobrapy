@@ -63,7 +63,7 @@ class Utils:
         #converts to cobra model object with builder
         model = builder.build()
 
-        modelseed = cobrakbase.modelseed.from_local('/kb/module/data/ModelSEEDDatabase-dev')
+        modelseed = cobrakbase.modelseed.from_local('/kb/module/data/')
         print(cobrakbase.annotate_model_with_modelseed(model, modelseed))
 
         return name, model

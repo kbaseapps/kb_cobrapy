@@ -1,3 +1,7 @@
-This directory contains any reference data required for this module to run that is not already present in KBase.
+### ModelSEEDDatabase
 
-For any reference data that is too large to host on Github (greater than 100MB), follow the [Reference Data Guide](https://kbase.github.io/kb_sdk_docs/howtos/work_with_reference_data.html) for an alternative.
+The current iteration of the biochemistry database stored here is:
+tag v1.0
+
+The files kept in this repository are the ones used in cobrakbase from_local():
+https://github.com/Fxe/cobrakbase/blob/master/cobrakbase/modelseed/modelseed.py#L190
