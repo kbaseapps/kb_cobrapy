@@ -6,11 +6,15 @@ MAINTAINER KBase Developer
 # install line here, a git checkout to download code, or run any other
 # installation scripts.
 
-# RUN apt-get update
+#here was one "dependency" for cobra that was officially distutil (ruamel-yaml)
+#That wheel kept trying to uninstall to reinstall, which caused problems, so we use --ignore-installed
 
-RUN pip install --upgrade pip && \
-    pip install cobra==0.15.2 && \
-    pip install cobrakbase==0.2.3
+RUN rm -rf /miniconda/lib/python3.6/site-packages/numpy
+RUN pip install --upgrade pip
+RUN pip install cobra==0.15.2 --ignore-installed
+RUN pip install networkx
+RUN pip install cobrakbase==0.2.7 --ignore-installed
+
 # -----------------------------------------
 
 COPY ./ /kb/module
