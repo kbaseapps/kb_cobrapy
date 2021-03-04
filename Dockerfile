@@ -25,6 +25,11 @@ WORKDIR /kb/module
 
 RUN make all
 
+COPY ./cobra_patch/model.py /miniconda/lib/python3.6/site-packages/cobra/core/model.py
+COPY ./cobra_patch/solver.py /miniconda/lib/python3.6/site-packages/cobra/util/solver.py
+COPY ./cobra_patch/sbml.py /miniconda/lib/python3.6/site-packages/cobra/io/sbml.py
+
+
 ENTRYPOINT [ "./scripts/entrypoint.sh" ]
 
 CMD [ ]
