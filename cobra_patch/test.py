@@ -7,7 +7,7 @@ from cobrakbase.core.model import KBaseFBAModel
 from cobrakbase.core import KBaseGenome
 from cobrakbase.core.converters import KBaseFBAModelToCobraBuilder
 
-kbase = cobrakbase.KBaseAPI('PLCZDTFJ2IHGNYRCU6TUNR6GPQZHH6WM')
+kbase = cobrakbase.KBaseAPI()
 
 model_object = kbase.get_object('MS1.mdl.gf', 'filipeliu:narrative_1612368108584')
 

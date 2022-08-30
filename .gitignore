@@ -1,4 +1,5 @@
 test_local
 sdk.cfg
+.idea
 .ipynb_checkpoints
 lib/kb_cobrapy/kb_cobrapyImpl.py.bak*

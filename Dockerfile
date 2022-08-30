@@ -8,12 +8,16 @@ MAINTAINER KBase Developer
 
 #here was one "dependency" for cobra that was officially distutil (ruamel-yaml)
 #That wheel kept trying to uninstall to reinstall, which caused problems, so we use --ignore-installed
-
+RUN apt-get update
+RUN apt-get install -y gcc
 RUN rm -rf /miniconda/lib/python3.6/site-packages/numpy
+RUN rm -rf /miniconda/lib/python3.6/site-packages/ruamel*
 RUN pip install --upgrade pip
-RUN pip install cobra==0.15.2 --ignore-installed
+RUN pip install cobra
 RUN pip install networkx
-RUN pip install cobrakbase==0.2.7 --ignore-installed
+RUN pip install chemw==0.3.2
+RUN pip install --use-deprecated=legacy-resolver git+https://github.com/ModelSEED/ModelSEEDpy.git@8a83e2ab6bb9a6ac44cff4978128a9aada1f16c6
+RUN pip install git+https://github.com/Fxe/cobrakbase.git@b9904ae0759a7e3bfac802363bec6cafcafbe42a
 
 # -----------------------------------------
 
