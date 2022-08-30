@@ -4,12 +4,15 @@ import uuid
 import shutil
 
 import cobra
+import modelseedpy
 import cobrakbase
 from cobrakbase.core.model import KBaseFBAModel
 from cobrakbase.core import KBaseGenome
 from cobrakbase.core.converters import KBaseFBAModelToCobraBuilder
 
 from installed_clients.DataFileUtilClient import DataFileUtil
+
+logger = logging.getLogger(__name__)
 
 
 class Utils:
@@ -21,6 +24,7 @@ class Utils:
         self.srv_wiz_url = config['srv-wiz-url']
         self.scratch = config['scratch']
         self.dfu = DataFileUtil(self.callback_url)
+        self.api = cobrakbase.KBaseAPI(config['KB_AUTH_TOKEN'], config)
 
     @staticmethod
     def validate_params(params, expected, opt_param=set()):
@@ -34,39 +38,17 @@ class Utils:
         defined_param = expected | opt_param
         for param in params:
             if param not in defined_param:
-                logging.warning("Unexpected parameter {} supplied".format(param))
+                logger.warning("Unexpected parameter {} supplied".format(param))
 
     def _ws_obj_to_cobra(self, ref):
-        ret = self.dfu.get_objects({'object_refs': [ref]})['data'][0]
-        name = ret['info'][1]
-        
-        #old nasty method
-        #model = cobrakbase.convert_kmodel(ret['data'])
-        #if 'genome_ref' in ret['data']:
-        #    logging.info(f"Annotating model with genome information: {ret['data']['genome_ref']}")
-        #    genome = self.dfu.get_objects(
-        #        {'object_refs': [ret['data']['genome_ref']]})['data'][0]['data']
-        #    cobrakbase.annotate_model_with_genome(model, genome)
-        
-        #fbamodel object wraps json data
-        fbamodel = KBaseFBAModel(ret['data'])
-        
-        builder = KBaseFBAModelToCobraBuilder(fbamodel)
-        
-        if 'genome_ref' in ret['data']:
-            logging.info(f"Annotating model with genome information: {ret['data']['genome_ref']}")
-            genome = self.dfu.get_objects(
-                {'object_refs': [ret['data']['genome_ref']]})['data'][0]['data']
-            #adding Genome to the Builder
-            builder.with_genome(KBaseGenome(genome))
-                         
-        #converts to cobra model object with builder
-        model = builder.build()
+        logger.info(f'fetch model from ws: {ref}')
+        model = self.api.get_from_ws(ref)
 
-        modelseed = cobrakbase.modelseed.from_local('/kb/module/data/')
+        modelseed = modelseedpy.biochem.from_local('/kb/module/data/')
+
         print(cobrakbase.annotate_model_with_modelseed(model, modelseed))
 
-        return name, model
+        return model.info.id, model
 
     def to_sbml(self, params):
         """Convert a FBAModel to a SBML file"""
