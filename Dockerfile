@@ -13,11 +13,11 @@ RUN apt-get install -y gcc
 RUN rm -rf /miniconda/lib/python3.6/site-packages/numpy
 RUN rm -rf /miniconda/lib/python3.6/site-packages/ruamel*
 RUN pip install --upgrade pip
-RUN pip install cobra
+RUN pip install cobra==0.25.0
 RUN pip install networkx
 RUN pip install chemw==0.3.2
 RUN pip install --use-deprecated=legacy-resolver git+https://github.com/ModelSEED/ModelSEEDpy.git@8a83e2ab6bb9a6ac44cff4978128a9aada1f16c6
-RUN pip install git+https://github.com/Fxe/cobrakbase.git@33f29379d9070f0f24bd528c7feac430b3e1ae98
+RUN pip install git+https://github.com/Fxe/cobrakbase.git@d0967661d0056d9449621e3e1c5f01d77b6c9108
 
 # -----------------------------------------
 
